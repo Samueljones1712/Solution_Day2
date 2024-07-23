@@ -12,18 +12,18 @@
         int resultPart2 = 0;
         string message = "";
         LinkedList<string> listWords = ReadFile("input.txt");
-        LinkedList<int> gamesValids = new LinkedList<int>();//Guarda los juegos validos
-        LinkedList<int> gamesInvalids = new LinkedList<int>();//Guarda los juegos invalidos
+        LinkedList<int> gamesValids = new LinkedList<int>();
+        LinkedList<int> gamesInvalids = new LinkedList<int>();
         Dictionary<string, int> setNumberPart2 = new Dictionary<string, int>();
         for (int i = 0; i < listWords.Count; i++)
         {
             string game = listWords.ElementAtOrDefault(i).Split(':')[1];
             if (GetGameData(game))
-            {//Primer juego
-                gamesValids.AddLast(i+1);//Guardo el juego valido
+            {
+                gamesValids.AddLast(i+1);
                 resultPart1+=i+1;
             }
-            resultPart2+= GetSumSetCubes(GetSetNumber(game),i+1);//Segundo juego
+            resultPart2+= GetSumSetCubes(GetSetNumber(game),i+1);
 
         }
         Console.WriteLine("----------Result---------");
@@ -35,18 +35,17 @@
         int result = 0;
         string message = "Game "+gameNumber+":\n";
         for (int i = 0; i < setNumber.Count(); i++)
-        {//Obtengo el valor de los cubos
+        {
             message+= setNumber.ElementAtOrDefault(i).Value+" "+setNumber.ElementAtOrDefault(i).Key+";";
             if (result > 0)
             {
-                result = result * setNumber.ElementAtOrDefault(i).Value;//Multiplico los valores
+                result = result * setNumber.ElementAtOrDefault(i).Value; 
             }
             else
             {
                 result = setNumber.ElementAtOrDefault(i).Value;
             }
-        }
-        //Console.WriteLine(message);
+        } 
         return result;
     }
     public static Dictionary<string,int> GetSetNumber(string game)
@@ -61,29 +60,29 @@
         int position = 0;
         LinkedList<int> positionInvalid = new LinkedList<int>();
         foreach (string color in highValue.Keys)
-        {//Primero obtengo el valor mas alto de cada color
+        { 
             int highValueCube = 0;
             int positionHighValue = 0;
             foreach (string cube in game.Split(';'))
-            {//Reviso en los cubos
+            { 
                 foreach (string colors in cube.Split(','))
-                {//Obtengo el color mas alto
+                { 
                     if (!positionInvalid.Contains(position))
                     {
                         if (colors.Contains(color))
                         {
-                            int valueCube = int.Parse(colors.Replace(color, "").Replace(" ", ""));//Obtengo el valor del cubo
+                            int valueCube = int.Parse(colors.Replace(color, "").Replace(" ", "")); 
                             if (valueCube > highValueCube)
-                            {//Guardo el valor mas alto
+                            { 
                                 highValueCube = valueCube;
-                                positionHighValue = position;//Guardo la posicion del cubo
+                                positionHighValue = position; 
                             }
                         }
                     }
                 }
                 position++;
             }
-            //Guardo el valor del color y su posicion en el cubo 
+ 
             highValue[color] = highValueCube;
             positionInvalid.AddLast(positionHighValue);
         }
@@ -91,25 +90,25 @@
         return highValue;
     }
     public static bool GetGameData(string game) 
-    {//Estamos en el juego
+    { 
         int colorCubes = 0;
         Dictionary<string, int> gameRules = new Dictionary<string, int>()
         {
             {"red", 12},
             {"green", 13},
             {"blue", 14}
-        };//Las reglas de juego
-        //Estamos en los cubos
+        }; 
+         
         foreach (string cube in game.Split(';'))
-        {//En un Cubo
+        { 
             foreach (string colors in cube.Split(','))
-            {//revisando el cubo
+            { 
 
                 if (colors.Contains("red"))
-                {//Elimino la letra y quito todos los espacios vacios para obtener el numero
+                { 
                     colorCubes = int.Parse(colors.Replace("red", "").Replace(" ", ""));
                     if (colorCubes > gameRules["red"])
-                    {//Si el numero de cubos es mayor al permitido
+                    { 
                         return false;
                     }
                 }
@@ -136,7 +135,7 @@
     }
 
     public static LinkedList<string> ReadFile(string fileName)
-    {//Busca las palabras en el archivo de texto
+    { 
         string file = @"C:\Users\samue\Downloads\Profesion\Advent of Code\Day-2\Solution_Day2\Resources\"+fileName;
         LinkedList<string> listWords = new LinkedList<string>();
         Console.WriteLine("Reading File using File.ReadAllText()");
