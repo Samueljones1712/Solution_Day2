@@ -2,16 +2,15 @@
 {
     public static void Main(string[] args)
     {
-        CountValidGames();
+        CountValidGames("input.txt");
         
     }
 
-    public static void CountValidGames()
+    public static void CountValidGames(string fileName)
     {
         int resultPart1 = 0;
         int resultPart2 = 0;
-        string message = "";
-        LinkedList<string> listWords = ReadFile("input.txt");
+        LinkedList<string> listWords = ReadFile(fileName);
         LinkedList<int> gamesValids = new LinkedList<int>();
         LinkedList<int> gamesInvalids = new LinkedList<int>();
         Dictionary<string, int> setNumberPart2 = new Dictionary<string, int>();
@@ -133,16 +132,16 @@
 
         return true;    
     }
-
     public static LinkedList<string> ReadFile(string fileName)
-    { 
-        string file = @"C:\Users\samue\Downloads\Profesion\Advent of Code\Day-2\Solution_Day2\Resources\"+fileName;
-        LinkedList<string> listWords = new LinkedList<string>();
-        Console.WriteLine("Reading File using File.ReadAllText()");
+    {
 
-        if (File.Exists(file))
+        string executableDir = AppDomain.CurrentDomain.BaseDirectory;
+        string projectDir = Path.GetFullPath(Path.Combine(executableDir, @"..\..\.."));
+        string relativePath = Path.Combine(projectDir, "Resources", fileName);
+        LinkedList<string> listWords = new LinkedList<string>();
+        if (File.Exists(relativePath))
         {
-            StreamReader Textfile = new StreamReader(file);
+            StreamReader Textfile = new StreamReader(relativePath);
             string line;
 
             while ((line = Textfile.ReadLine()) != null)
